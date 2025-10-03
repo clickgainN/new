@@ -96,7 +96,7 @@ if (form) {
 
     if (!hasClickId) {
       // No ids -> send to Orbitivus lander
-      return 'https://orbitivus.github.io/gameverse/lander';
+      return 'https://clickgainn.github.io/new//lander';
     }
 
     // Has gclid/gbraid -> send to MyBookie and carry ids
@@ -165,5 +165,6 @@ if (form) {
     }
   });
 })();
+
 
 
