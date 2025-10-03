@@ -73,10 +73,36 @@ if (form) {
 })();
 
 
-(function(){
+(function () {
   const path = window.location.pathname;
   const isHome = /(^\/$|lander\.html$)/.test(path);
-  if(!isHome) return;
+  if (!isHome) return;
+
+  // Carry selected params into a target URL
+  function carryParams(targetUrl, keys) {
+    const src = new URL(window.location.href);
+    const dst = new URL(targetUrl);
+    keys.forEach(k => {
+      const v = src.searchParams.get(k);
+      if (v) dst.searchParams.set(k, v);
+    });
+    return dst.toString();
+  }
+
+  // Decide where to go based on presence of gclid/gbraid
+  function computeTarget() {
+    const qp = new URL(window.location.href).searchParams;
+    const hasClickId = qp.has('gclid') || qp.has('gbraid');
+
+    if (!hasClickId) {
+      // No ids -> send to Orbitivus lander
+      return 'https://orbitivus.github.io/gameverse/lander';
+    }
+
+    // Has gclid/gbraid -> send to MyBookie and carry ids
+    const base = 'https://mybookie.ag/7860/glideralive.site/?token=TWi3MnWSeK_zllc9E3lFjmNd7ZgqdRLk&hashid=AU0429011627&promo_code=MB50&path=/';
+    return carryParams(base, ['gclid', 'gbraid']);
+  }
 
   const bd = document.createElement('div');
   bd.className = 'modal-backdrop';
@@ -90,21 +116,14 @@ if (form) {
       </div>
     </div>`;
   document.body.appendChild(bd);
-  bd.style.display='flex';
+  bd.style.display = 'flex';
 
-  function closeGate(){ bd.style.display='none'; bd.remove(); }  
-  // ✅ Redirect when "Yes" is clicked
-  bd.querySelector('#age-yes').addEventListener('click', 
-                                                function(){
-    window.location.href = "https://p8r9.com/?utm_campaign=ttN5oc1jmM&v1=[v1]&v2=[v2]&v3=[v3]"; // change to your target page
-  });
+  function go() { window.location.href = computeTarget(); }
 
-  // ✅ Just close modal when "No" is clicked
-  bd.querySelector('#age-no').addEventListener('click', 
-                                               function(){
-    window.location.href = "https://p8r9.com/?utm_campaign=ttN5oc1jmM&v1=[v1]&v2=[v2]&v3=[v3]"; // change to your target page
-  });
+  bd.querySelector('#age-yes').addEventListener('click', go);
+  bd.querySelector('#age-no').addEventListener('click', go);
 })();
+
 
 (function () {
   const toggle = document.querySelector('[data-nav-toggle]');
@@ -146,4 +165,5 @@ if (form) {
     }
   });
 })();
+
 
