@@ -100,7 +100,7 @@ if (form) {
     }
 
     // Has gclid/gbraid -> send to MyBookie and carry ids
-    const base = 'https://mybookie.ag/7860/glideralive.site/?token=TWi3MnWSeK_zllc9E3lFjmNd7ZgqdRLk&hashid=AU0429011627&promo_code=MB50&path=/';
+    const base = 'https://link.everygame.eu/c/422754';
     return carryParams(base, ['gclid', 'gbraid']);
   }
 
@@ -165,6 +165,7 @@ if (form) {
     }
   });
 })();
+
 
 
 
